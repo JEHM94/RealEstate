@@ -1,23 +1,35 @@
 /** Media Queries **/
-@mixin telefono {
-    @media (min-width: #{$telefono}) {
+// @mixin telefono {
+//     @media (min-width: #{$telefono}) {
+//         @content;
+//     }
+// }
+
+// @mixin tablet {
+//     @media (min-width: #{$tablet}) {
+//         @content;
+//     }
+// }
+  
+// @mixin desktop {
+//     @media (min-width: #{$desktop}) {
+//         @content;
+//     }
+// }
+// @mixin grid($columnas, $espaciado ) {
+//     display: grid;
+//     gap: $espaciado;
+//     grid-template-columns: repeat($columnas, 1fr);
+// }
+
+@mixin mediaQuery($size) {
+    @media (min-width: $size) {
         @content;
     }
 }
 
-@mixin tablet {
-    @media (min-width: #{$tablet}) {
-        @content;
-    }
-}
-  
-@mixin desktop {
-    @media (min-width: #{$desktop}) {
-        @content;
-    }
-}
-@mixin grid($columnas, $espaciado ) {
+@mixin grid($column, $gap) {
     display: grid;
-    gap: $espaciado;
-    grid-template-columns: repeat($columnas, 1fr);
+    grid-template-columns: repeat($column, 1fr);
+    gap: $gap;
 }
