@@ -1,3 +1,5 @@
+@use 'base/variables' as v;
+
 html {
     font-size: 62.5%;
     box-sizing: border-box;
@@ -6,15 +8,15 @@ html {
     box-sizing: inherit;
 }
 body {
-    font-family: $mainFont;
+    font-family: v.$mainFont;
     font-size: 1.6rem;
     line-height: 1.8;
 }
 p {
-    color: $colorBlack;
+    color: v.$colorBlack;
     font-size: 2rem;
 }
-.contenedor {
+.container {
     width: 95%;
     max-width: 120rem;
     margin: 0 auto;
@@ -31,8 +33,8 @@ picture {
 }
 
 h1, h2, h3 {
-    font-family: $mainFont;
-    margin: calc($separation / 2) 0;
+    font-family: v.$mainFont;
+    margin: calc(v.$separation / 2) 0;
     font-weight: 300;
     text-align: center;
     
