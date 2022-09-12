@@ -3,6 +3,7 @@
 .footer {
     padding: calc(v.$separation / 2) 0;
     background-color: v.$colorDarkGray;
+    margin-bottom: 0;
 
     .footer-container {
         padding-top: calc(v.$separation / 2);
@@ -12,5 +13,4 @@
         color: v.$colorWhite;
         text-align: center;
     }
-
 }

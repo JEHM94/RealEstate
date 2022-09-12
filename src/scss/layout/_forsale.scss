@@ -1,0 +1,48 @@
+@use 'base/variables' as v;
+@use 'base/mixins' as m;
+
+@include m.mediaQuery(v.$tablet) {
+    .for-sale-container {
+        @include m.grid(3, 2rem);
+    }
+}
+
+.for-sale {
+    background-color: lighten($color: v.$colorGray, $amount: 5);
+    border: 1px solid darken($color: v.$colorGray, $amount: 10);
+
+    .for-sale-content {
+        padding: 2rem;
+    }
+
+    h3,
+    p {
+        margin: 0;
+    }
+
+    .for-sale-price {
+        color: v.$colorGreen;
+        font-weight: v.$weightBold;
+        font-size: 3rem;
+    }
+}
+
+.icons-info {
+    display: flex;
+    list-style: none;
+    padding: 0;
+
+    li {
+        flex: 1;
+        display: flex;
+
+        img {
+            flex: 0 0 3rem;
+            margin-right: 1rem;
+        }
+
+        p {
+            font-weight: v.$weightBlack;
+        }
+    }
+}
