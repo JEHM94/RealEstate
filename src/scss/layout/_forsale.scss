@@ -1,6 +1,12 @@
 @use 'base/variables' as v;
 @use 'base/mixins' as m;
 
+.for-sale-section{
+    h2{
+        font-weight: v.$weightBold
+    }
+}
+
 @include m.mediaQuery(v.$tablet) {
     .for-sale-container {
         @include m.grid(3, 2rem);
@@ -35,6 +41,7 @@
     li {
         flex: 1;
         display: flex;
+        justify-content: center;
 
         img {
             flex: 0 0 3rem;

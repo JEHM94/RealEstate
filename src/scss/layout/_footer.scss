@@ -1,16 +1,25 @@
 @use 'base/variables' as v;
+@use 'base/mixins' as m;
 
 .footer {
-    padding: calc(v.$separation / 2) 0;
+    padding: 1rem calc(v.$separation / 2);
     background-color: v.$colorDarkGray;
     margin-bottom: 0;
 
+
     .footer-container {
         padding-top: calc(v.$separation / 2);
+        @include m.mediaQuery(v.$tablet) {
+            padding-top: 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
     }
 
-    .copyright{
+    .copyright {
         color: v.$colorWhite;
         text-align: center;
+        min-width: fit-content;
     }
 }

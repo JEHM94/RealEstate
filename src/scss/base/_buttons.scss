@@ -2,6 +2,10 @@
 @use 'base/mixins' as m;
 
 .button-yellow{
+    @include m.button(v.$colorYellow, inline-block);
+}
+
+.button-yellow-block{
     @include m.button(v.$colorYellow, block);
 }
 
