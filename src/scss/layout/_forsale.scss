@@ -16,9 +16,16 @@
 .for-sale {
     background-color: lighten($color: v.$colorGray, $amount: 5);
     border: 1px solid darken($color: v.$colorGray, $amount: 10);
+    border-radius: 10px;
+    margin-bottom: 2rem;
+
+    img {
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
 
     .for-sale-content {
-        padding: 2rem;
+        padding: 2rem;        
     }
 
     h3,
@@ -26,6 +33,18 @@
         margin: 0;
     }
 
+}
+
+.show-all {
+    a {
+        width: 100%;
+    }
+
+    @include m.mediaQuery(v.$tablet) {
+        a {
+            width: auto;
+        }
+    }
 }
 
 .for-sale-price {

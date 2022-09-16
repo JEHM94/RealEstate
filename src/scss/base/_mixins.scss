@@ -21,10 +21,13 @@
     text-align: center;
     margin-top: calc(v.$separation / 2);
     display: $display;
+    border: none;
+    border-radius: 10px;
 
     @include mediaQuery(v.$desktop) {
         &:hover {
             background-color: darken($color: $bgColor, $amount: 5);
+            cursor: pointer;
         }
     }
 }
