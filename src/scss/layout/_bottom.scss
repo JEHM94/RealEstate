@@ -34,6 +34,12 @@
 
 }
 
+.meta-info {
+    span {
+        color: v.$colorYellow;
+    }
+}
+
 .blog-text {
     a {
         color: v.$colorBlack;
@@ -55,9 +61,5 @@
             background-color: v.$colorGreen;
             margin-top: .5rem;
         }
-    }
-
-    span {
-        color: v.$colorYellow;
     }
 }

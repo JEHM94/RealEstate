@@ -1,8 +1,8 @@
 @use 'base/variables' as v;
 @use 'base/mixins' as m;
 
-.for-sale-section{
-    h2{
+.for-sale-section {
+    h2 {
         font-weight: v.$weightBold
     }
 }
@@ -26,17 +26,19 @@
         margin: 0;
     }
 
-    .for-sale-price {
-        color: v.$colorGreen;
-        font-weight: v.$weightBold;
-        font-size: 3rem;
-    }
+}
+
+.for-sale-price {
+    color: v.$colorGreen;
+    font-weight: v.$weightBold;
+    font-size: 3rem;
 }
 
 .icons-info {
     display: flex;
     list-style: none;
     padding: 0;
+    max-width: 40rem;
 
     li {
         flex: 1;
@@ -50,6 +52,12 @@
 
         p {
             font-weight: v.$weightBlack;
+        }
+    }
+
+    &.detailed {
+        li {
+            justify-content: flex-start;
         }
     }
 }
