@@ -1,0 +1,41 @@
+@use 'base/variables' as v;
+
+.dark {
+    background-color: darken($color: v.$colorDarkGray, $amount: 5);
+
+    p {
+        color: v.$colorWhite;
+    }
+
+    a,
+    h1,
+    h2,
+    h3,
+    h4,
+    blockquote {
+        color: v.$colorGray;
+    }
+
+    .for-sale {
+        background-color: v.$colorDarkGray;
+        border: 1px solid v.$colorDarkGray;
+
+        .price {
+            color: v.$colorGreen;
+        }
+
+        .icon {
+            filter: invert(100%);
+        }
+    }
+
+    .property-details {
+        .for-sale-price {
+            color: v.$colorGreen;
+        }
+
+        .icon {
+            filter: invert(100%);
+        }
+    }
+}

@@ -40,6 +40,11 @@
         font-weight: v.$weightBold;
         line-height: 2;
         max-width: 60rem;
+        padding-left: 2.5rem;
+        
+        @include m.mediaQuery(v.$tablet){
+            padding-left: 1.6rem;
+        }
     }
 }
 

@@ -25,7 +25,7 @@
     }
 
     .for-sale-content {
-        padding: 2rem;        
+        padding: 2rem;
     }
 
     h3,
@@ -55,9 +55,9 @@
 
 .icons-info {
     display: flex;
+    justify-content: center;
     list-style: none;
     padding: 0;
-    max-width: 40rem;
 
     li {
         flex: 1;
@@ -75,6 +75,7 @@
     }
 
     &.detailed {
+        max-width: 40rem;
         li {
             justify-content: flex-start;
         }
