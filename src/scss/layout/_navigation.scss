@@ -58,7 +58,7 @@
 .navigation {
     visibility: hidden;
     opacity: 0;
-    transition: visibility .3s ease-in-out, opacity 0.2s linear;
+    transition: visibility .3s ease-in-out, opacity 0.1s linear, height .5s linear;
 
     @include m.mediaQuery(v.$tablet) {
         display: flex;

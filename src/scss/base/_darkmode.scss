@@ -38,4 +38,22 @@
             filter: invert(100%);
         }
     }
+
+    .form {
+
+        label,
+        legend,
+        p {
+            color: v.$colorWhite;
+        }
+
+        input:not([type="submit"]),
+        textarea,
+        select {
+            background-color: v.$colorDarkGray;
+            border: 1px solid v.$colorDarkGray;
+            color: v.$colorWhite;
+        }
+
+    }
 }
