@@ -1,4 +1,7 @@
-<?php include 'includes/templates/header.php'; ?>
+<?php
+require 'includes/functions.php';
+includeTemplate('header');
+?>
 
 <main class="container section center-content">
     <h1>Guía para la decoración de tu hogar</h1>
@@ -24,4 +27,6 @@
     </div> <!-- .property-details -->
 </main>
 
-<?php include 'includes/templates/footer.php'; ?>
+<?php
+includeTemplate('footer');
+?>

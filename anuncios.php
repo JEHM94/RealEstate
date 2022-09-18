@@ -1,4 +1,7 @@
-<?php include 'includes/templates/header.php'; ?>
+<?php
+require 'includes/functions.php';
+includeTemplate('header');
+?>
 
 <main class="container section">
     <section class="section container for-sale-section">
@@ -225,4 +228,6 @@
     </section>
 </main>
 
-<?php include 'includes/templates/footer.php'; ?>
+<?php
+includeTemplate('footer');
+?>

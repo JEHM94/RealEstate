@@ -1,4 +1,7 @@
-<?php include 'includes/templates/header.php'; ?>
+<?php
+require 'includes/functions.php';
+includeTemplate('header');
+?>
 
 <main class="container section center-content">
     <h1>Nuestro Blog</h1>
@@ -84,4 +87,6 @@
     </article> <!-- .blog-post -->
 </main>
 
-<?php include 'includes/templates/footer.php'; ?>
+<?php
+includeTemplate('footer');
+?>

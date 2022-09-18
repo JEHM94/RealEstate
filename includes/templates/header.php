@@ -10,8 +10,8 @@
 </head>
 
 <body>
-    <header class="header <?php echo isset($index) ? 'index' : '' ?> ">
-        <div class="container <?php echo isset($index) ? 'header-content' : 'header-container' ?>">
+    <header class="header <?php echo $index ? 'index' : '' ?> ">
+        <div class="container <?php echo $index ? 'header-content' : 'header-container' ?>">
             <div class="bar">
                 <div class="mobile-header">
                     <a href="/">
@@ -35,6 +35,6 @@
                     </nav>
                 </div><!-- .right -->
             </div> <!-- .bar -->
-            <?php echo isset($index) ? '<h1>Venta de Casas y Departamentos Exclusivos de Lujo</h1>' : '' ?>
+            <?php echo $index ? '<h1>Venta de Casas y Departamentos Exclusivos de Lujo</h1>' : '' ?>
         </div> <!-- .header-container -->
     </header>

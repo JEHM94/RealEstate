@@ -1,4 +1,7 @@
-<?php include 'includes/templates/header.php'; ?>
+<?php
+require 'includes/functions.php';
+includeTemplate('header');
+?>
 
 <main class="container section center-content">
     <h1>Casa Frente al Bosque</h1>
@@ -41,4 +44,6 @@
     </div> <!-- .property-details -->
 </main>
 
-<?php include 'includes/templates/footer.php'; ?>
+<?php
+includeTemplate('footer');
+?>

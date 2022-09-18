@@ -1,6 +1,6 @@
 <?php
-$index = true;
-include 'includes/templates/header.php';
+require 'includes/functions.php';
+includeTemplate('header', $index = true);
 ?>
 
 <main class="container section">
@@ -216,4 +216,6 @@ include 'includes/templates/header.php';
     </section> <!-- .feedbacks -->
 </div>
 
-<?php include 'includes/templates/footer.php'; ?>
+<?php
+includeTemplate('footer');
+?>

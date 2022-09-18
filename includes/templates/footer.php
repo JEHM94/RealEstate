@@ -9,7 +9,7 @@
                 </nav>
             </div>
 
-            <p class="copyright">Todos los derechos reservados. 2022&copy;</p>
+            <p class="copyright">Todos los derechos reservados. <?php echo date('Y'); ?> &copy;</p>
         </div>
     </footer>
 
