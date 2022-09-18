@@ -10,8 +10,8 @@
 </head>
 
 <body>
-    <header class="header">
-        <div class="container header-container">
+    <header class="header <?php echo isset($index) ? 'index' : '' ?> ">
+        <div class="container <?php echo isset($index) ? 'header-content' : 'header-container' ?>">
             <div class="bar">
                 <div class="mobile-header">
                     <a href="/">
@@ -28,36 +28,13 @@
                         <img class="dark-mode-btn" src="build/img/dark-mode.svg" alt="Botón de Modo Oscuro">
                     </div>
                     <nav class="navigation">
-                        <a href="nosotros.html">Nosotros</a>
-                        <a href="anuncios.html">Anuncios</a>
-                        <a href="blog.html">Blog</a>
-                        <a href="contacto.html">Contacto</a>
+                        <a href="nosotros.php">Nosotros</a>
+                        <a href="anuncios.php">Anuncios</a>
+                        <a href="blog.php">Blog</a>
+                        <a href="contacto.php">Contacto</a>
                     </nav>
                 </div><!-- .right -->
             </div> <!-- .bar -->
-        </div>
+            <?php echo isset($index) ? '<h1>Venta de Casas y Departamentos Exclusivos de Lujo</h1>' : '' ?>
+        </div> <!-- .header-container -->
     </header>
-
-    <main class="container section">
-        <h1>Titulo Página</h1>
-    </main>
-
-    <footer class="section footer">
-        <div class="container footer-container">
-            <div class="container ">
-                <nav class="navigation nav-footer">
-                    <a href="nosotros.html">Nosotros</a>
-                    <a href="anuncios.html">Anuncios</a>
-                    <a href="blog.html">Blog</a>
-                    <a href="contacto.html">Contacto</a>
-                </nav>
-            </div>
-
-            <p class="copyright">Todos los derechos reservados. 2022&copy;</p>
-        </div>
-    </footer>
-
-    <script src="build/js/bundle.min.js"></script>
-</body>
-
-</html>
