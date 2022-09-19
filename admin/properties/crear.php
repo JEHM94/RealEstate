@@ -1,10 +1,9 @@
 <?php
-//Database
+// Imports the Database Connection
 require '../../includes/config/database.php';
-
 $db = connectDB();
 
-// Get Sellers
+// Query to Get Sellers
 $query = "SELECT id, name, lastname FROM sellers";
 $result2 = mysqli_query($db, $query);
 

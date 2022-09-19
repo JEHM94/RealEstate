@@ -1,14 +1,22 @@
 @use 'base/variables' as v;
 @use 'base/mixins' as m;
 
-.button-yellow{
+.button-yellow {
     @include m.button(v.$colorYellow, inline-block);
 }
 
-.button-yellow-block{
+.button-yellow-block {
     @include m.button(v.$colorYellow, block);
 }
 
-.button-green{
+.button-green {
     @include m.button(v.$colorGreen, inline-block);
+}
+
+.button-green-block {
+    @include m.button(v.$colorGreen, block);
+}
+
+.button-red-block {
+    @include m.button(v.$colorRed, block);
 }
