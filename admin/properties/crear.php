@@ -37,30 +37,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // input name='image'
     $image = $_FILES['image'];
 
+    /******* Form Validations *******/
+    // Tittle Validations
     if (!$tittle) {
         $errors[] = "Debes añadir un título";
     }
-
-    if (!$price) {
+    // Price Validations
+    if (!$price || $price < 1) {
         $errors[] = "El precio es obligatorio";
     }
-
+    if (strlen($price) >= 9) {
+        $errors[] = "El precio debe ser menor a $100,000,000,00";
+    }
+    // Description Validations
     if (strlen($description) < 10) {
         $errors[] = "La descripción debe contener 10 caracteres o más";
     }
-
-    if (!$bedrooms) {
+    // Bedrooms Validations
+    if (!$bedrooms || $bedrooms < 1) {
         $errors[] = "El número de habitaciones es obligartorio";
     }
 
-    if (!$wc) {
+    if ($bedrooms >= 10) {
+        $errors[] = "La cantidad máxima de habitaciones es de 9";
+    }
+    // WC Validations
+    if (!$wc || $wc < 1) {
         $errors[] = "El número de baños es obligartorio";
     }
-
-    if (!$parking) {
+    if ($wc >= 10) {
+        $errors[] = "La cantidad máxima de baños es de 9";
+    }
+    // Parking Validations
+    if (!$parking || $parking < 1) {
         $errors[] = "El número de estacionamientos es obligartorio";
     }
-
+    if ($parking >= 10) {
+        $errors[] = "La cantidad máxima de estacionamientos es de 9";
+    }
+    // Seller Validations
     if (!$sellers_id) {
         $errors[] = "Debes seleccionar un vendedor";
     }
@@ -106,7 +121,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // After the property is inserted go back to admin
             //This header redirects only if there is not any HTML BEFORE it
             require '../../includes/app.php';
-            $message = md5($PROPERTY_REGISTERED);
+            $message = md5(PROPERTY_REGISTERED);
             header('Location: /admin?result=' . $message);
         }
     }
@@ -135,7 +150,7 @@ includeTemplate('header');
             <input id="formCreateTittle" name="tittle" type="text" placeholder="Título de la Propiedad" value="<?php echo $tittle; ?>">
 
             <label for="formCreatePrice">Precio ($)</label>
-            <input id="formCreatePrice" name="price" type="number" placeholder="$100,000" min=0 value="<?php echo $price; ?>">
+            <input id="formCreatePrice" name="price" type="number" placeholder="$100,000" min=0 max=99999999 value="<?php echo $price; ?>">
 
             <label for="formCreateImage">Image</label>
             <input id="formCreateImage" name="image" type="file" accept="image/jpeg, image/png">

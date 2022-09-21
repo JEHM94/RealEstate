@@ -1,4 +1,5 @@
 <?php
+
 // Imports the Database Connection
 require '../includes/config/database.php';
 $db = connectDB();
@@ -11,9 +12,8 @@ $queryResult = mysqli_query($db, $query);
 // Includes funcions
 require '../includes/functions.php';
 
-// Property successfuly added message validation
-$message = md5($PROPERTY_REGISTERED);
-$result = $_GET['result'] ?? null;
+// Property message validation
+$message = $_GET['result'] ?? null;
 
 
 // Includes the site Header
@@ -23,9 +23,22 @@ includeTemplate('header');
 <main class="container section">
     <h1>Administrador de Bienes Raices</h1>
 
-    <?php if ($result === $message) : ?>
-        <p class="alert successful">Propiedad creada correctamente</p>
-    <?php endif; ?>
+    <?php
+    switch ($message):
+        case md5(PROPERTY_REGISTERED):
+    ?>
+            <p class="alert successful"><?php echo PROPERTY_REGISTERED; ?></p>
+        <?php
+            break;
+        case md5(PROPERTY_UPDATED):
+        ?>
+            <p class="alert successful"><?php echo PROPERTY_UPDATED; ?></p>
+    <?php
+            break;
+        default:
+            break;
+    endswitch;
+    ?>
 
     <a href="/admin/properties/crear.php" class="button button-green">Nueva Propiedad</a>
 
@@ -42,17 +55,17 @@ includeTemplate('header');
 
         <tbody>
             <!-- Show properties result -->
-            <?php while($property = mysqli_fetch_assoc($queryResult)) : ?>
-            <tr>
-                <td><?php echo $property['id']; ?></td>
-                <td><?php echo $property['tittle']; ?></td>
-                <td> <img src="/images/<?php echo $property['image'];?>" class="table-image" alt="Imagen Propiedad"></td>
-                <td>$<?php echo $property['price']; ?></td>
-                <td>
-                    <a href="#" class="button-yellow-block">Actualizar</a>
-                    <a href="#" class="button-red-block">Eliminar</a>
-                </td>
-            </tr>
+            <?php while ($property = mysqli_fetch_assoc($queryResult)) : ?>
+                <tr>
+                    <td><?php echo $property['id']; ?></td>
+                    <td><?php echo $property['tittle']; ?></td>
+                    <td> <img src="/images/<?php echo $property['image']; ?>" class="table-image" alt="Imagen Propiedad"></td>
+                    <td>$<?php echo $property['price']; ?></td>
+                    <td>
+                        <a href="/admin/properties/actualizar.php?id=<?php echo $property['id']; ?>" class="button-yellow-block">Actualizar</a>
+                        <a href="#" class="button-red-block">Eliminar</a>
+                    </td>
+                </tr>
             <?php endwhile; ?>
         </tbody>
     </table>
