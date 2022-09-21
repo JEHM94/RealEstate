@@ -60,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!$price || $price < 1) {
         $errors[] = "El precio es obligatorio";
     }
-    if (strlen($price) >= 9) {
+    if ($price >= 100000000) {
         $errors[] = "El precio debe ser menor a $100,000,000,00";
     }
     // Description Validations
@@ -114,15 +114,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             mkdir($imageFolder);
         }
 
-        // Create custom unique name
-        $imageName = md5(uniqid(rand(), true)) . ".jpg";
+        // If there is a new Image then Remove the old Image
+        if ($image['name']) {
+            // Delete the old Image
+            unlink($imageFolder . $property['image']);
 
-        // Upload the image
-        move_uploaded_file($image['tmp_name'], $imageFolder . $imageName);
+            // Create custom unique name
+            $imageName = md5(uniqid(rand(), true)) . ".jpg";
 
+            // Upload the new image
+            move_uploaded_file($image['tmp_name'], $imageFolder . $imageName);
+        } else{
+            $imageName = $property['image'];
+        }
 
         // Insert query
-        $query = " UPDATE properties SET tittle = '${tittle}', price = ${price}, description = '${description}', bedrooms = ${bedrooms}, wc = ${wc}, parking = ${parking}, sellers_id = ${sellers_id} WHERE id = ${id} ";
+        $query = " UPDATE properties SET tittle = '${tittle}', price = ${price}, image = '${imageName}', description = '${description}', bedrooms = ${bedrooms}, wc = ${wc}, parking = ${parking}, sellers_id = ${sellers_id} WHERE id = ${id} ";
 
         $result = mysqli_query($db, $query);
 
