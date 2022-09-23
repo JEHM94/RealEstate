@@ -1,4 +1,6 @@
 <?php
+// Imports
+require '../../includes/functions.php';
 // Imports the Database Connection
 require '../../includes/config/database.php';
 $db = connectDB();
@@ -120,9 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($result) {
             // After the property is inserted go back to admin
             //This header redirects only if there is not any HTML BEFORE it
-            require '../../includes/app.php';
-            $message = md5(PROPERTY_REGISTERED);
-            header('Location: /admin?result=' . $message);
+            redirectToAdmin(PROPERTY_REGISTERED);
         }
     }
 }

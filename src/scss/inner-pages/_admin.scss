@@ -32,13 +32,28 @@ table.properties {
         }
     }
 
+    tbody {
+        td {
+            text-align: center;
+        }
+
+        img {
+            margin: auto;
+            display: block;
+        }
+
+        form {
+            margin-bottom: 1rem;
+        }
+    }
+
     .table-image {
         width: 10rem;
     }
-    
+
 }
 
-.small-image{
+.small-image {
     width: 20rem;
     padding-bottom: 2rem;
 }

@@ -1,15 +1,18 @@
 <?php
+// Imports
+require '../../includes/functions.php';
+
+// Imports the Database Connection
+require '../../includes/config/database.php';
+$db = connectDB();
+
 // Check for valid ID
 $id = $_GET['id'];
 $id = filter_var($id, FILTER_VALIDATE_INT);
 //If the id is not int redirect back to admin
 if (!$id) {
-    header('Location: /admin');
+    redirectToAdmin();
 }
-
-// Imports the Database Connection
-require '../../includes/config/database.php';
-$db = connectDB();
 
 //Query to get the property by id
 $query = "SELECT * FROM properties WHERE id=${id}";
@@ -124,7 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // Upload the new image
             move_uploaded_file($image['tmp_name'], $imageFolder . $imageName);
-        } else{
+        } else {
             $imageName = $property['image'];
         }
 
@@ -134,16 +137,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $result = mysqli_query($db, $query);
 
         if ($result) {
-            // After the property is inserted go back to admin
+            // After the property is updated go back to admin
             //This header redirects only if there is not any HTML BEFORE it
-            require '../../includes/app.php';
-            $message = md5(PROPERTY_UPDATED);
-            header('Location: /admin?result=' . $message);
+            redirectToAdmin(PROPERTY_UPDATED);
         }
     }
 }
 
-require '../../includes/functions.php';
 includeTemplate('header');
 ?>
 
