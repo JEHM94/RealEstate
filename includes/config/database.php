@@ -15,3 +15,7 @@ function connectDB() : mysqli
     }
     return $db;
 }
+
+function closeDB($db){
+    mysqli_close($db);
+}

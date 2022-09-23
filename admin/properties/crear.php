@@ -190,4 +190,7 @@ includeTemplate('header');
 
     <?php
     includeTemplate('footer');
+    
+    // Close Database
+    closeDB($db);
     ?>

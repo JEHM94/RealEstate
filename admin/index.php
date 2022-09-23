@@ -106,9 +106,9 @@ includeTemplate('header');
 </main>
 
 <?php
-//close the DB connection
-mysqli_close($db);
-
 // Includes the site Footer
 includeTemplate('footer');
+
+// Close Database
+closeDB($db);
 ?>

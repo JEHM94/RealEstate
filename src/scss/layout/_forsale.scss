@@ -9,6 +9,12 @@
 
 @include m.mediaQuery(v.$tablet) {
     .for-sale-container {
+        @include m.grid(2, 2rem);
+    }
+}
+
+@include m.mediaQuery(v.$desktop) {
+    .for-sale-container {
         @include m.grid(3, 2rem);
     }
 }
@@ -31,6 +37,13 @@
     h3,
     p {
         margin: 0;
+    }
+
+    .for-sale-description{
+        width: 25rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
 }

@@ -1,21 +1,40 @@
 <?php
+// Imports
 require 'includes/functions.php';
+// Imports the Database Connection
+require 'includes/config/database.php';
+$db = connectDB();
+
+// Check for valid ID
+$id = $_GET['id'];
+$id = filter_var($id, FILTER_VALIDATE_INT);
+//If the id is not int redirect back to admin
+if (!$id) {
+    header('Location: anuncios.php');
+}
+
+//Query to get the property by id
+$query = "SELECT * FROM properties WHERE id=${id}";
+$result = mysqli_query($db, $query);
+
+
+// If no property was found then go back
+if (!$result->num_rows) {
+    header('Location: anuncios.php');
+}
+
+$property = mysqli_fetch_assoc($result);
+
 includeTemplate('header');
 ?>
 
 <main class="container section center-content">
-    <h1>Casa Frente al Bosque</h1>
+    <h1><?php echo $property['tittle']; ?></h1>
 
-    <picture>
-        <source srcset="build/img/destacada.avif" type="image/avif">
-        <source srcset="build/img/destacada.webp" type="image/webp">
-        <img loading="lazy" width="200" height="300" src="build/img/destacada.jpg" alt="Imagen de la Propiedad">
-    </picture>
+    <img loading="lazy" width="200" height="300" src="images/<?php echo $property['image']; ?>" alt="Imagen de la Propiedad">
 
     <div class="property-details">
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ratione minus consequatur voluptate. Voluptates
-            architecto sit sequi excepturi suscipit, dolorum amet sapiente tempora esse modi maiores, reprehenderit,
-            voluptatibus facilis ad voluptas.
+        <p><?php echo $property['description']; ?>
             Nam aut similique ut repellendus, quasi fugiat mollitia impedit, quo corrupti consequatur recusandae
             dolore! Adipisci rem fuga, ea illum exercitationem veniam maxime saepe perferendis voluptatem nostrum
             corrupti! Fugiat, non ut?</p>
@@ -23,22 +42,22 @@ includeTemplate('header');
             deserunt ipsam sed veniam incidunt distinctio officiis maxime! Iure aspernatur repellat quisquam debitis
             fugit.</p>
 
-        <p class="for-sale-price">$3,000,000</p>
+        <p class="for-sale-price">$<?php echo $property['price']; ?></p>
 
         <ul class="icons-info detailed">
             <li>
                 <img class="icon" loading="lazy" src="build/img/icono_wc.svg" alt="Icono WC">
-                <p>3</p>
+                <p><?php echo $property['wc']; ?></p>
             </li>
 
             <li>
                 <img class="icon" loading="lazy" src="build/img/icono_estacionamiento.svg" alt="Icono Estacionamiento">
-                <p>3</p>
+                <p><?php echo $property['parking']; ?></p>
             </li>
 
             <li>
                 <img class="icon" loading="lazy" src="build/img/icono_dormitorio.svg" alt="Icono Habitaciones">
-                <p>4</p>
+                <p><?php echo $property['bedrooms']; ?></p>
             </li>
         </ul>
     </div> <!-- .property-details -->
@@ -46,4 +65,6 @@ includeTemplate('header');
 
 <?php
 includeTemplate('footer');
+// Close Database
+closeDB($db);
 ?>

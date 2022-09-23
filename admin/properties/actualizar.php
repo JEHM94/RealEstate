@@ -17,6 +17,12 @@ if (!$id) {
 //Query to get the property by id
 $query = "SELECT * FROM properties WHERE id=${id}";
 $result2 = mysqli_query($db, $query);
+
+// If no property was found then go back
+if (!$result2->num_rows) {
+    header('Location: /admin');
+}
+
 $property = mysqli_fetch_assoc($result2);
 
 // Query to Get Sellers
@@ -208,4 +214,8 @@ includeTemplate('header');
 
     <?php
     includeTemplate('footer');
+
+    // Close Database
+    closeDB($db);
+
     ?>
