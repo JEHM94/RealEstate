@@ -8,16 +8,16 @@
     padding-top: 3rem;
 
     img {
-        width: 40rem;
+        width: 30rem;
     }
 
     @include m.mediaQuery(v.$tablet) {
         flex-direction: row;
         justify-content: space-between;
-
+/* 
         img {
             width: 30rem;
-        }
+        } */
     }
 }
 
