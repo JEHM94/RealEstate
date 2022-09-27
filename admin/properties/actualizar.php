@@ -1,6 +1,10 @@
 <?php
 // Imports
+// Includes funcions
 require '../../includes/functions.php';
+
+// Check if the user is authenticated
+authUser();
 
 // Imports the Database Connection
 require '../../includes/config/database.php';

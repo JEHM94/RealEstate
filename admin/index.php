@@ -1,4 +1,10 @@
 <?php
+// Includes funcions
+require '../includes/functions.php';
+
+// Check if the user is authenticated
+authUser();
+
 
 // Imports the Database Connection
 require '../includes/config/database.php';
@@ -8,9 +14,6 @@ $db = connectDB();
 $query = "SELECT * FROM properties";
 $queryResult = mysqli_query($db, $query);
 
-
-// Includes funcions
-require '../includes/functions.php';
 
 // Property message validation
 $message = $_GET['result'] ?? null;

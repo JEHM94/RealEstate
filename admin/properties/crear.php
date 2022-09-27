@@ -1,6 +1,11 @@
 <?php
 // Imports
+// Includes funcions
 require '../../includes/functions.php';
+
+// Check if the user is authenticated
+authUser();
+
 // Imports the Database Connection
 require '../../includes/config/database.php';
 $db = connectDB();
@@ -127,7 +132,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-require '../../includes/functions.php';
+
 includeTemplate('header');
 ?>
 
@@ -190,7 +195,7 @@ includeTemplate('header');
 
     <?php
     includeTemplate('footer');
-    
+
     // Close Database
     closeDB($db);
     ?>

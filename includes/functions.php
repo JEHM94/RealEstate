@@ -17,3 +17,14 @@ function redirectToAdmin(string $redirectionMessage = null)
         header('Location: /admin?result=' . $message);
     }
 }
+
+function authUser()
+{
+    // Check if the user is authenticated
+    session_start();
+    $auth = $_SESSION['login'];
+
+    if (!$auth) {
+        header('Location: /');
+    }
+}

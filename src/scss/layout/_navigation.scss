@@ -75,6 +75,7 @@
         text-align: center;
 
         @include m.mediaQuery(v.$tablet) {
+            width: max-content;
             margin-right: 2rem;
             font-size: 1.8rem;
 

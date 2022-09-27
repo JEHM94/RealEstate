@@ -112,7 +112,4 @@ includeTemplate('header', $isIndex = true);
 
 <?php
 includeTemplate('footer');
-
-// Close Database
-closeDB($db);
 ?>
