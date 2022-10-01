@@ -1,5 +1,11 @@
 <?php
-require 'app.php';
+
+define('TEMPLATES_URL', __DIR__ . '/templates');
+define('FUNCTIONS_URL', __DIR__ . 'functions.php');
+
+define('PROPERTY_REGISTERED', 'Propiedad creada correctamente');
+define('PROPERTY_UPDATED', 'Propiedad actualizada correctamente');
+define('PROPERTY_DELETED', 'Propiedad Eliminada correctamente');
 
 // Templates
 function includeTemplate(string $templateName, bool $isIndex = false)
@@ -22,9 +28,8 @@ function authUser()
 {
     // Check if the user is authenticated
     session_start();
-    $auth = $_SESSION['login'];
 
-    if (!$auth) {
+    if (!$_SESSION['login']) {
         header('Location: /');
     }
 }

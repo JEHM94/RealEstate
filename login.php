@@ -1,8 +1,6 @@
 <?php
 // Imports
-require 'includes/functions.php';
-// Imports the Database Connection
-require 'includes/config/database.php';
+require 'includes/app.php';
 
 // Check if the user is authenticated already
 session_start();

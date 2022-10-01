@@ -1,5 +1,5 @@
 <?php
-require 'includes/functions.php';
+require 'includes/app.php';
 includeTemplate('header');
 ?>
 
@@ -17,6 +17,4 @@ includeTemplate('header');
 <?php
 includeTemplate('footer');
 
-// Close Database
-closeDB($db);
 ?>

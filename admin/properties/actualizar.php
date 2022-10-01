@@ -1,13 +1,12 @@
 <?php
 // Imports
 // Includes funcions
-require '../../includes/functions.php';
+require '../../includes/app.php';
 
 // Check if the user is authenticated
 authUser();
 
 // Imports the Database Connection
-require '../../includes/config/database.php';
 $db = connectDB();
 
 // Check for valid ID
@@ -215,11 +214,12 @@ includeTemplate('header');
 
         <input type="submit" class="button button-green" value="Actualizar Propiedad">
     </form>
+</main>
 
-    <?php
-    includeTemplate('footer');
+<?php
+includeTemplate('footer');
 
-    // Close Database
-    closeDB($db);
+// Close Database
+closeDB($db);
 
-    ?>
+?>

@@ -1,8 +1,7 @@
 <?php
 // Imports
-require 'includes/functions.php';
-// Imports the Database Connection
-require 'includes/config/database.php';
+require 'includes/app.php';
+
 $db = connectDB();
 
 // Check for valid ID

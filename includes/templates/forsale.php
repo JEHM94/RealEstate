@@ -1,6 +1,5 @@
 <?php
 // Imports the Database Connection
-require __DIR__ . '/../config/database.php';
 $db = connectDB();
 
 // Get properties

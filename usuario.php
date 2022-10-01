@@ -1,6 +1,6 @@
 <?php
-// Imports the Database Connection
-require 'includes/config/database.php';
+// Imports
+require 'includes/app.php';
 $db = connectDB();
 
 // Credentials

@@ -1,13 +1,14 @@
 <?php
 // Imports
 // Includes funcions
-require '../../includes/functions.php';
+require '../../includes/app.php';
 
 // Check if the user is authenticated
 authUser();
 
+use App\Property;
+
 // Imports the Database Connection
-require '../../includes/config/database.php';
 $db = connectDB();
 
 // Query to Get Sellers
@@ -192,10 +193,11 @@ includeTemplate('header');
 
         <input type="submit" class="button button-green" value="Crear Propiedad">
     </form>
+</main>
 
-    <?php
-    includeTemplate('footer');
+<?php
+includeTemplate('footer');
 
-    // Close Database
-    closeDB($db);
-    ?>
+// Close Database
+closeDB($db);
+?>

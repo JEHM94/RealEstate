@@ -1,11 +1,3 @@
-<?php
-if (!isset($_SESSION)) {
-    session_start();
-}
-
-$auth = $_SESSION['login'] ?? null;
-
-?>
 <footer class="section footer">
     <div class="container footer-container">
         <div class="container ">

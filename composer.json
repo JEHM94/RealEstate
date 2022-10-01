@@ -1,0 +1,17 @@
+{
+    "name": "jesus/real-estate",
+    "description": "RealEstate POO",
+    "type": "project",
+    "authors": [
+        {
+            "name": "JEHM94",
+            "email": "jesus.e.hamel@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "App\\" : "./classes"
+        }
+    }
+}
