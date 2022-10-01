@@ -3,6 +3,8 @@
 define('TEMPLATES_URL', __DIR__ . '/templates');
 define('FUNCTIONS_URL', __DIR__ . 'functions.php');
 
+define('IMAGE_FOLDER', __DIR__ . '/../images/');
+
 define('PROPERTY_REGISTERED', 'Propiedad creada correctamente');
 define('PROPERTY_UPDATED', 'Propiedad actualizada correctamente');
 define('PROPERTY_DELETED', 'Propiedad Eliminada correctamente');

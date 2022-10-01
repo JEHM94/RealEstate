@@ -2,7 +2,9 @@
 // Imports
 // Includes funcions
 require '../../includes/app.php';
+
 use App\Property;
+use Intervention\Image\ImageManagerStatic as Image;
 
 // Check if the user is authenticated
 authUser();
@@ -23,99 +25,46 @@ $wc = '';
 $parking = '';
 $sellers_id = '';
 
-$errors = [];
+$errors = Property::getErrors();
 
-// Sends the form to the DB
+// Check if the Form was sent by the User
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
+    // Creates a New Property Instance using the form Data
     $property = new Property($_POST);
-    $property->saveToDB();
-    
-    // Save the file in a variable
-    // input name='image'
-    $image = $_FILES['image'];
 
-    /******* Form Validations *******/
-    // Tittle Validations
-    if (!$tittle) {
-        $errors[] = "Debes añadir un título";
-    }
-    // Price Validations
-    if (!$price || $price < 1) {
-        $errors[] = "El precio es obligatorio";
-    }
-    if (strlen($price) >= 9) {
-        $errors[] = "El precio debe ser menor a $100,000,000,00";
-    }
-    // Description Validations
-    if (strlen($description) < 10) {
-        $errors[] = "La descripción debe contener 10 caracteres o más";
-    }
-    // Bedrooms Validations
-    if (!$bedrooms || $bedrooms < 1) {
-        $errors[] = "El número de habitaciones es obligartorio";
-    }
+    // If the Image exists
+    if ($_FILES['image']['tmp_name']) {
+        // Create custom unique name for the Image
+        $imageName = md5(uniqid(rand(), true)) . ".jpg";
 
-    if ($bedrooms >= 10) {
-        $errors[] = "La cantidad máxima de habitaciones es de 9";
-    }
-    // WC Validations
-    if (!$wc || $wc < 1) {
-        $errors[] = "El número de baños es obligartorio";
-    }
-    if ($wc >= 10) {
-        $errors[] = "La cantidad máxima de baños es de 9";
-    }
-    // Parking Validations
-    if (!$parking || $parking < 1) {
-        $errors[] = "El número de estacionamientos es obligartorio";
-    }
-    if ($parking >= 10) {
-        $errors[] = "La cantidad máxima de estacionamientos es de 9";
-    }
-    // Seller Validations
-    if (!$sellers_id) {
-        $errors[] = "Debes seleccionar un vendedor";
-    }
+        // Save the Image Name to the Property Instace
+        $property->setImage($imageName);
 
-    // $image['error'] checks for size > 2mb (this is the max size allowed by php) 
-    if (!$image['name'] || $image['error']) {
-        $errors[] = "La imagen es obligatoria";
-    }
-
-    // Image size  (max 1mb)
-    $maxSize = 1024 * 1000;
-
-    if ($image['size'] > $maxSize) {
-        $errors[] = "La Imagen es muy pesada (Máximo 100kb)";
+        // Resize Image Using Intervention 800x600 px
+        // Get the Image from input name='image'
+        $image = Image::make($_FILES['image']['tmp_name'])->fit(800, 600);
     }
 
 
+    // Validates the Form filled by the User
+    $errors = $property->validate();
 
-    // if there are no errors then insert
+    // if there are no errors then insert into the DataBase
     if (empty($errors)) {
 
         /* Files upload to the server */
         // Create the image folder if not exists
-        $imageFolder = '../../images/';
-
-        if (!is_dir($imageFolder)) {
-            mkdir($imageFolder);
+        if (!is_dir(IMAGE_FOLDER)) {
+            mkdir(IMAGE_FOLDER);
         }
 
-        // Create custom unique name
-        $imageName = md5(uniqid(rand(), true)) . ".jpg";
+        // Save the Image to the Server
+        $image->save(IMAGE_FOLDER . $imageName);
 
-        // Upload the image
-        move_uploaded_file($image['tmp_name'], $imageFolder . $imageName);
-
-
-        // Insert query
-        
-
-        $result = mysqli_query($db, $query);
-
-        if ($result) {
+        // Inserts a New Property Into Database
+        //$result = $property->saveToDB();
+        if ($property->saveToDB()) {
             // After the property is inserted go back to admin
             //This header redirects only if there is not any HTML BEFORE it
             redirectToAdmin(PROPERTY_REGISTERED);
@@ -143,16 +92,16 @@ includeTemplate('header');
             <legend>Información General</legend>
 
             <label for="formCreateTittle">Título</label>
-            <input id="formCreateTittle" name="tittle" type="text" placeholder="Título de la Propiedad" value="<?php echo $tittle; ?>">
+            <input id="formCreateTittle" name="tittle" type="text" placeholder="Título de la Propiedad" value="<?php echo $property->tittle ?? ''; ?>">
 
             <label for="formCreatePrice">Precio ($)</label>
-            <input id="formCreatePrice" name="price" type="number" placeholder="$100,000" min=0 max=99999999 value="<?php echo $price; ?>">
+            <input id="formCreatePrice" name="price" type="number" placeholder="$100,000" min=0 max=99999999 value="<?php echo $property->price ?? ''; ?>">
 
             <label for="formCreateImage">Image</label>
             <input id="formCreateImage" name="image" type="file" accept="image/jpeg, image/png">
 
             <label for="formCreateDescription">Descripción</label>
-            <textarea id="formCreateDescription" name="description" cols="30" rows="10"><?php echo $description; ?></textarea>
+            <textarea id="formCreateDescription" name="description" cols="30" rows="10"><?php echo $property->description ?? ''; ?></textarea>
 
         </fieldset>
 
@@ -160,13 +109,13 @@ includeTemplate('header');
             <legend>Características de la Propiedad</legend>
 
             <label for="formCreateBRooms">Habitaciones</label>
-            <input id="formCreateBRooms" type="number" name="bedrooms" placeholder="0" min=0 max=9 value="<?php echo $bedrooms; ?>">
+            <input id="formCreateBRooms" type="number" name="bedrooms" placeholder="0" min=0 max=9 value="<?php echo $property->bedrooms ?? ''; ?>">
 
             <label for="formCreateWC">Baños</label>
-            <input id="formCreateWC" type="number" name="wc" placeholder="0" min=0 max=9 value="<?php echo $wc; ?>">
+            <input id="formCreateWC" type="number" name="wc" placeholder="0" min=0 max=9 value="<?php echo $property->wc ?? ''; ?>">
 
             <label for="formCreateParking">Estacionamientos</label>
-            <input id="formCreateParking" type="number" name="parking" placeholder="0" min=0 max=9 value="<?php echo $parking; ?>">
+            <input id="formCreateParking" type="number" name="parking" placeholder="0" min=0 max=9 value="<?php echo $property->parking ?? ''; ?>">
         </fieldset>
 
         <fieldset>
