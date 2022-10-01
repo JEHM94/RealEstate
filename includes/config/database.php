@@ -7,7 +7,7 @@ function connectDB() : mysqli
     $host = "localhost";
     $dbName = "realstate_crud";
 
-    $db = mysqli_connect($host, $user, $password, $dbName);
+    $db = new mysqli($host, $user, $password, $dbName);
 
     if (!$db) {
         echo "Error en el intento de conexión";

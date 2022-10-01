@@ -2,11 +2,10 @@
 // Imports
 // Includes funcions
 require '../../includes/app.php';
+use App\Property;
 
 // Check if the user is authenticated
 authUser();
-
-use App\Property;
 
 // Imports the Database Connection
 $db = connectDB();
@@ -29,18 +28,9 @@ $errors = [];
 // Sends the form to the DB
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    // mysqli_real_escape_string Validates the data sent by the user
-    // to avoid sql injections and scripting
-
-    $tittle = mysqli_escape_string($db, $_POST['tittle']);
-    $price = mysqli_escape_string($db, $_POST['price']);
-    $description = mysqli_escape_string($db, $_POST['description']);
-    $bedrooms = mysqli_escape_string($db, $_POST['bedrooms']);
-    $wc = mysqli_escape_string($db, $_POST['wc']);
-    $parking = mysqli_escape_string($db, $_POST['parking']);
-    $sellers_id = mysqli_escape_string($db, $_POST['sellers_id']);
-    $created = date('Y/m/d');
-
+    $property = new Property($_POST);
+    $property->saveToDB();
+    
     // Save the file in a variable
     // input name='image'
     $image = $_FILES['image'];
@@ -121,7 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
         // Insert query
-        $query = "INSERT INTO properties (tittle, price, image, description, bedrooms, wc, parking, datecreated, sellers_id) VALUES ('$tittle', '$price', '$imageName', '$description', '$bedrooms', '$wc', '$parking', '$created', '$sellers_id')";
+        
 
         $result = mysqli_query($db, $query);
 
