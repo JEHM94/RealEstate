@@ -1,19 +1,15 @@
 <?php
 // Includes funcions
-require '../includes/functions.php';
+
+use App\Property;
+
+require '../includes/app.php';
 
 // Check if the user is authenticated
 authUser();
 
-
-// Imports the Database Connection
-require '../includes/config/database.php';
-$db = connectDB();
-
 // Query to Get properties
-$query = "SELECT * FROM properties";
-$queryResult = mysqli_query($db, $query);
-
+$properties = Property::getAllProperties();
 
 // Property message validation
 $message = $_GET['result'] ?? null;
@@ -89,21 +85,21 @@ includeTemplate('header');
 
         <tbody>
             <!-- Show properties result -->
-            <?php while ($property = mysqli_fetch_assoc($queryResult)) : ?>
+            <?php foreach ($properties as $property) : ?>
                 <tr>
-                    <td><?php echo $property['id']; ?></td>
-                    <td><?php echo $property['tittle']; ?></td>
-                    <td> <img src="/images/<?php echo $property['image']; ?>" class="table-image" alt="Imagen Propiedad"></td>
-                    <td>$<?php echo $property['price']; ?></td>
+                    <td><?php echo $property->id; ?></td>
+                    <td><?php echo $property->tittle; ?></td>
+                    <td> <img src="/images/<?php echo $property->image; ?>" class="table-image" alt="Imagen Propiedad"></td>
+                    <td>$<?php echo $property->price; ?></td>
                     <td>
-                        <a href="/admin/properties/actualizar.php?id=<?php echo $property['id']; ?>" class="button-yellow-block">Actualizar</a>
+                        <a href="/admin/properties/actualizar.php?id=<?php echo $property->id; ?>" class="button-yellow-block">Actualizar</a>
                         <form method="POST" class="w-100">
-                            <input type="hidden" name="id" value="<?php echo $property['id']; ?>">
+                            <input type="hidden" name="id" value="<?php echo $property->id; ?>">
                             <input type="submit" class="button-red-block" value="Eliminar">
                         </form>
                     </td>
                 </tr>
-            <?php endwhile; ?>
+            <?php endforeach; ?>
         </tbody>
     </table>
 </main>

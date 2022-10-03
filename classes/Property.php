@@ -58,8 +58,51 @@ class Property
     {
         return self::$errors;
     }
+
+    // Get all Properties from DB
+    public static function getAllProperties()
+    {
+        $query = "SELECT * FROM properties";
+        return self::sqlRequest($query);
+        exit;
+    }
     /*****  Getters & Setters END *****/
 
+    // Sends SQL Query to the DB
+    public static function sqlRequest(string $query)
+    {
+        // SQL request to the DB
+        $result = self::$db->query($query);
+
+        // Create the new Array of Objects
+        $array = [];
+        while ($row = $result->fetch_assoc()) {
+            $array[] = self::createObject($row);
+        }
+        
+        // Realese memory
+        $result->free();
+        
+        //Returns the Array of objects
+        return $array;
+    }
+
+    // Creates an self object 
+    public static function createObject($sqlRow): self
+    {
+        // Create a new Property Object
+        $object = new self;
+
+        // Fill the Object attributes
+        foreach ($sqlRow as $key => $value) {
+            // If the attribute $key exists in the Object
+            // Then fill it with the value
+            if (property_exists($object, $key)) {
+                $object->$key = $value;
+            }
+        }
+        return $object;
+    }
 
     // Insert a New Property Into Database.Properties
     public function saveToDB()
