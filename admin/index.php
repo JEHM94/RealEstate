@@ -21,22 +21,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($id) {
 
-        // Delete the image from the images folder
-        $query = "SELECT image FROM properties WHERE id = ${id}";
-        $result = mysqli_query($db, $query);
-        $property = mysqli_fetch_assoc($result);
+        //Find the property by its id
+        $property = Property::findProperty($id);
 
-        unlink('../images/' . $property['image']);
+        $property->deleteProperty();
 
-        // Then delete the property from the database
-        $query = "DELETE FROM properties WHERE id = ${id}";
-        $result = mysqli_query($db, $query);
-
-        if ($result) {
-            // After the property is deleted go back to admin
-            //This header redirects only if there is not any HTML BEFORE it
-            redirectToAdmin(PROPERTY_DELETED);
-        }
     }
 }
 
@@ -89,7 +78,7 @@ includeTemplate('header');
                 <tr>
                     <td><?php echo $property->id; ?></td>
                     <td><?php echo $property->tittle; ?></td>
-                    <td> <img src="/images/<?php echo $property->image; ?>" class="table-image" alt="Imagen Propiedad"></td>
+                    <td> <img src="/images/<?php echo $property->image; ?>" class="table-image" alt="Imagen de la Propiedad"></td>
                     <td>$<?php echo $property->price; ?></td>
                     <td>
                         <a href="/admin/properties/actualizar.php?id=<?php echo $property->id; ?>" class="button-yellow-block">Actualizar</a>

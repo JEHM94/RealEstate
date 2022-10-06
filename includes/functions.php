@@ -15,6 +15,7 @@ function includeTemplate(string $templateName, bool $isIndex = false)
     include TEMPLATES_URL . "/${templateName}.php";
 }
 
+// Redirects the user to Admin site
 function redirectToAdmin(string $redirectionMessage = null)
 {
 
@@ -26,6 +27,7 @@ function redirectToAdmin(string $redirectionMessage = null)
     }
 }
 
+// Authenticates Admin User
 function authUser()
 {
     // Check if the user is authenticated
@@ -34,4 +36,10 @@ function authUser()
     if (!$_SESSION['login']) {
         header('Location: /');
     }
+}
+
+// Cleans the user inputs to add security 
+function cleanInput($input)
+{
+    return htmlspecialchars($input);
 }

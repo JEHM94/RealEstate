@@ -35,7 +35,7 @@ class Property
         $this->wc = $propertyArray['wc'] ?? '';
         $this->parking = $propertyArray['parking'] ?? '';
         $this->datecreated = date('Y/m/d');
-        $this->sellers_id = $propertyArray['sellers_id'] ?? '';
+        $this->sellers_id = $propertyArray['sellers_id'] ?? 1;
     }
 
     /*******  Getters & Setters *******/
@@ -48,6 +48,10 @@ class Property
     // Set Image
     public function setImage(string $image)
     {
+        // Delete the old image
+        if (isset($this->id)) {
+            $this->deleteImage();
+        }
         if ($image) {
             $this->image = $image;
         }
@@ -64,9 +68,18 @@ class Property
     {
         $query = "SELECT * FROM properties";
         return self::sqlRequest($query);
-        exit;
     }
     /*****  Getters & Setters END *****/
+
+    // Find Property
+    public static function findProperty($propertyID)
+    {
+        //Query to get the property by id
+        $query = "SELECT * FROM properties WHERE id=${propertyID}";
+        $result = self::sqlRequest($query);
+
+        return array_shift($result);
+    }
 
     // Sends SQL Query to the DB
     public static function sqlRequest(string $query)
@@ -79,10 +92,10 @@ class Property
         while ($row = $result->fetch_assoc()) {
             $array[] = self::createObject($row);
         }
-        
+
         // Realese memory
         $result->free();
-        
+
         //Returns the Array of objects
         return $array;
     }
@@ -104,8 +117,19 @@ class Property
         return $object;
     }
 
-    // Insert a New Property Into Database.Properties
     public function saveToDB()
+    {
+        // If the ID already exists, then Update the Property
+        if (isset($this->id)) {
+            $this->updateProperty();
+        } else {
+            // If there's no ID then Create a New Property
+            return $this->createProperty();
+        }
+    }
+
+    // Insert a New Property Into Database.Properties
+    public function createProperty()
     {
         // Sanitize Attributes
         $attributes = $this->sanitizeAttributes();
@@ -121,6 +145,56 @@ class Property
         //$result = self::$db->query($query);
         // Returns if the query was successfuly executed
         return self::$db->query($query);
+    }
+
+    // Update Property
+    public function updateProperty()
+    {
+        // Sanitize Attributes
+        $attributes = $this->sanitizeAttributes();
+
+        $values = [];
+        foreach ($attributes as $key => $value) {
+            $values[] = "{$key}='{$value}'";
+        }
+
+        // Update query
+        $query = "UPDATE properties SET ";
+        $query .= join(', ', $values);
+        $query .= " WHERE id = '" . self::$db->escape_string($this->id) . "' ";
+        $query .= " LIMIT 1";
+
+        // if the query was successfuly executed then Go to Admin
+        if (self::$db->query($query)) {
+            // After the property is updated go back to admin
+            //This header redirects only if there is not any HTML BEFORE it
+            redirectToAdmin(PROPERTY_UPDATED);
+        }
+    }
+
+    // Delete Property
+    public function deleteProperty()
+    {
+        // Then delete the property from the database
+        $query = "DELETE FROM properties WHERE id = " . self::$db->escape_string($this->id) . " LIMIT 1";
+
+        if (self::$db->query($query)) {
+            $this->deleteImage();
+
+            // After the property is deleted go back to admin
+            //This header redirects only if there is not any HTML BEFORE it
+            redirectToAdmin(PROPERTY_DELETED);
+        }
+    }
+
+    // Delete Image
+    public function deleteImage()
+    {
+        // Check if the Image exists
+        if (file_exists(IMAGE_FOLDER . $this->image)) {
+            // Then Delete the Image
+            unlink(IMAGE_FOLDER . $this->image);
+        }
     }
 
     // Identify and Set DB Attributes
@@ -165,7 +239,7 @@ class Property
             self::$errors[] = "El precio es obligatorio";
         }
         if (strlen($this->price) >= 9) {
-            self::$errors[] = "El precio debe ser menor a $this->100,000,000,00";
+            self::$errors[] = "El precio debe ser menor a $100,000,000,00";
         }
         // Description Validations
         if (strlen($this->description) < 10) {
@@ -205,5 +279,15 @@ class Property
         /******* Form Validations END *******/
 
         return self::$errors;
+    }
+
+    // Synchronizes the Object on Memory with the changes done by the user
+    public function syncChanges($arrayPost = [])
+    {
+        foreach ($arrayPost as $key => $value) {
+            if (property_exists($this, $key) && !is_null($value)) {
+                $this->$key = $value;
+            }
+        }
     }
 }
