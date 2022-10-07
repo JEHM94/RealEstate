@@ -54,12 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $image->save(IMAGE_FOLDER . $imageName);
 
         // Inserts a New Property Into Database
-        //$result = $property->saveToDB();
-        if ($property->saveToDB()) {
-            // After the property is inserted go back to admin
-            //This header redirects only if there is not any HTML BEFORE it
-            redirectToAdmin(PROPERTY_REGISTERED);
-        }
+        $property->saveToDB();
     }
 }
 

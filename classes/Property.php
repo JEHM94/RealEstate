@@ -26,7 +26,7 @@ class Property
     // Constructor
     public function __construct($propertyArray = [])
     {
-        $this->id = $propertyArray['id'] ?? '';
+        $this->id = $propertyArray['id'] ?? null;
         $this->tittle = $propertyArray['tittle'] ?? '';
         $this->price = $propertyArray['price'] ?? '';
         $this->image = $propertyArray['image'] ?? '';
@@ -49,7 +49,7 @@ class Property
     public function setImage(string $image)
     {
         // Delete the old image
-        if (isset($this->id)) {
+        if (!is_null($this->id)) {
             $this->deleteImage();
         }
         if ($image) {
@@ -120,7 +120,7 @@ class Property
     public function saveToDB()
     {
         // If the ID already exists, then Update the Property
-        if (isset($this->id)) {
+        if (!is_null($this->id)) {
             $this->updateProperty();
         } else {
             // If there's no ID then Create a New Property
@@ -142,9 +142,9 @@ class Property
         $query .= join("', '", array_values($attributes));
         $query .= " ') ";
 
-        //$result = self::$db->query($query);
-        // Returns if the query was successfuly executed
-        return self::$db->query($query);
+        $result = self::$db->query($query);
+
+        $this->redirect($result, PROPERTY_REGISTERED);
     }
 
     // Update Property
@@ -164,12 +164,9 @@ class Property
         $query .= " WHERE id = '" . self::$db->escape_string($this->id) . "' ";
         $query .= " LIMIT 1";
 
-        // if the query was successfuly executed then Go to Admin
-        if (self::$db->query($query)) {
-            // After the property is updated go back to admin
-            //This header redirects only if there is not any HTML BEFORE it
-            redirectToAdmin(PROPERTY_UPDATED);
-        }
+        $result = self::$db->query($query);
+
+        $this->redirect($result, PROPERTY_UPDATED);
     }
 
     // Delete Property
@@ -177,13 +174,22 @@ class Property
     {
         // Then delete the property from the database
         $query = "DELETE FROM properties WHERE id = " . self::$db->escape_string($this->id) . " LIMIT 1";
+        $result = self::$db->query($query);
 
-        if (self::$db->query($query)) {
-            $this->deleteImage();
+        $this->redirect($result, PROPERTY_DELETED);
+    }
 
-            // After the property is deleted go back to admin
+    protected function redirect(bool $queryResult, string $redirectionMessage)
+    {
+        // If the query was OK then redirect
+        if ($queryResult) {
+            // If the Property was deleted then remove the image
+            if ($redirectionMessage === PROPERTY_DELETED) {
+                $this->deleteImage();
+            }
+            // After the query was successfuly executed go back to admin
             //This header redirects only if there is not any HTML BEFORE it
-            redirectToAdmin(PROPERTY_DELETED);
+            redirectToAdmin($redirectionMessage);
         }
     }
 

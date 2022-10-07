@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($errors)) {
 
         /* Files upload to the server */
-        // If the Image exists
+        // If a new Image exists
         if ($_FILES['property']['tmp_name']['image']) {
             // Create custom unique name for the Image
             $imageName = md5(uniqid(rand(), true)) . ".jpg";
