@@ -1,34 +1,55 @@
 <?php
-// Includes funcions
-
-use App\Property;
-
 require '../includes/app.php';
 
 // Check if the user is authenticated
 authUser();
 
+// Classes Import
+use App\Property;
+use App\Seller;
+
 // Query to Get properties
-$properties = Property::getAllProperties();
+$properties = Property::getAll();
+$sellers = Seller::getAll();
 
 // Property message validation
 $message = $_GET['result'] ?? null;
 
 // Delete Property
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    // Get the ID and Check if its valid
     $id = $_POST['id'];
     $id = filter_var($id, FILTER_VALIDATE_INT);
 
-    if ($id) {
+    switch ($_POST['type']) {
+            // Check if we're trying to delete a Property
+        case 'property':
+            if ($id) {
+                //Find the property by its id
+                $property = Property::findOnDB($id);
+                // Check if the propery exists then delete it
+                if (!is_null($property)) {
+                    $property->deleteRow();
+                }
+            }
+            break;
+            // Check if we're trying to delete a Seller
+        case 'seller':
+            if ($id) {
+                // Find the seller by its id
+                $seller = Seller::findOnDB($id);
+                // if the seller exists then delete it
+                if (!is_null($seller)) {
+                    $seller->deleteRow();
+                }
+            }
+            break;
 
-        //Find the property by its id
-        $property = Property::findProperty($id);
-
-        $property->deleteProperty();
-
+        default:
+            break;
     }
 }
-
 
 // Includes the site Header
 includeTemplate('header');
@@ -38,28 +59,18 @@ includeTemplate('header');
     <h1>Administrador de Bienes Raices</h1>
 
     <?php
-    switch ($message):
-        case md5(PROPERTY_REGISTERED):
+    $message = getResultMessage($message);
+    // If there's a valid message then show the Alert
+    if ($message) :
     ?>
-            <p class="alert successful"><?php echo PROPERTY_REGISTERED; ?></p>
-        <?php
-            break;
-        case md5(PROPERTY_UPDATED):
-        ?>
-            <p class="alert successful"><?php echo PROPERTY_UPDATED; ?></p>
-        <?php
-            break;
-        case md5(PROPERTY_DELETED):
-        ?>
-            <p class="alert successful"><?php echo PROPERTY_DELETED; ?></p>
-    <?php
-            break;
-        default:
-            break;
-    endswitch;
-    ?>
+        <p class="alert successful"><?php echo cleanInput($message); ?></p>
+    <?php endif; ?>
 
-    <a href="/admin/properties/crear.php" class="button button-green">Nueva Propiedad</a>
+    <h2>Propiedades</h2>
+
+    <a href="/admin/properties/crear.php" class="button button-green">Crear Propiedad</a>
+
+    <a href="/admin/sellers/crear.php" class="button button-yellow">Crear Vendedor</a>
 
     <table class="properties">
         <thead>
@@ -84,6 +95,39 @@ includeTemplate('header');
                         <a href="/admin/properties/actualizar.php?id=<?php echo $property->id; ?>" class="button-yellow-block">Actualizar</a>
                         <form method="POST" class="w-100">
                             <input type="hidden" name="id" value="<?php echo $property->id; ?>">
+                            <input type="hidden" name="type" value="property">
+                            <input type="submit" class="button-red-block" value="Eliminar">
+                        </form>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+
+    <h2>Vendedores</h2>
+
+    <table class="properties">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Teléfono</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <!-- Show properties result -->
+            <?php foreach ($sellers as $seller) : ?>
+                <tr>
+                    <td><?php echo $seller->id; ?></td>
+                    <td><?php echo $seller->name . " " . $seller->lastname; ?></td>
+                    <td>(+58)<?php echo $seller->phone; ?></td>
+                    <td>
+                        <a href="/admin/sellers/actualizar.php?id=<?php echo $seller->id; ?>" class="button-yellow-block">Actualizar</a>
+                        <form method="POST" class="w-100">
+                            <input type="hidden" name="id" value="<?php echo $seller->id; ?>">
+                            <input type="hidden" name="type" value="seller">
                             <input type="submit" class="button-red-block" value="Eliminar">
                         </form>
                     </td>
@@ -97,6 +141,4 @@ includeTemplate('header');
 // Includes the site Footer
 includeTemplate('footer');
 
-// Close Database
-closeDB($db);
 ?>

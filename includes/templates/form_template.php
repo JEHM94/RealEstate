@@ -35,11 +35,12 @@
 <fieldset>
     <legend>Vendedor</legend>
 
-    <!--  <select id="formCreateSeller" name="sellers_id">
+    <select id="formCreateSeller" name="property[sellers_id]">
         <option selected disabled>-Seleccionar-</option>
-        <?php while ($seller = mysqli_fetch_assoc($result2)) : ?>
-            <option <?php echo $sellers_id === $seller['id'] ? 'selected' : '' ?> value="<?php echo $seller['id']; ?>">
-                <?php echo $seller['name'] . " " . $seller['lastname']; ?> </option>
-        <?php endwhile; ?>
-    </select> -->
+        <?php foreach ($sellers as $seller) : ?>
+            <option <?php echo $property->sellers_id === $seller->id ? 'selected' : '' ?> value="<?php echo cleanInput($seller->id); ?>">
+                <?php echo cleanInput($seller->name) . " " . cleanInput($seller->lastname); ?>
+            </option>
+        <?php endforeach; ?>
+    </select>
 </fieldset>

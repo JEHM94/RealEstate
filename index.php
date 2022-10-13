@@ -37,7 +37,6 @@ includeTemplate('header', $isIndex = true);
     <h2>Casas y Departamentos</h2>
 
     <?php
-    $propertyLimit = 3;
     include 'includes/templates/forsale.php';
     ?>
 

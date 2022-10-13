@@ -2,7 +2,7 @@
 // Imports
 require 'includes/app.php';
 
-$db = connectDB();
+use App\Property;
 
 // Check for valid ID
 $id = $_GET['id'];
@@ -12,28 +12,24 @@ if (!$id) {
     header('Location: anuncios.php');
 }
 
-//Query to get the property by id
-$query = "SELECT * FROM properties WHERE id=${id}";
-$result = mysqli_query($db, $query);
-
+// Find the property by its ID
+$property = Property::findOnDB($id);
 
 // If no property was found then go back
-if (!$result->num_rows) {
+if (!$property) {
     header('Location: anuncios.php');
 }
-
-$property = mysqli_fetch_assoc($result);
 
 includeTemplate('header');
 ?>
 
 <main class="container section center-content">
-    <h1><?php echo $property['tittle']; ?></h1>
+    <h1><?php echo $property->tittle; ?></h1>
 
-    <img loading="lazy" width="200" height="300" src="images/<?php echo $property['image']; ?>" alt="Imagen de la Propiedad">
+    <img loading="lazy" width="200" height="300" src="images/<?php echo $property->image; ?>" alt="Imagen de la Propiedad">
 
     <div class="property-details">
-        <p><?php echo $property['description']; ?>
+        <p><?php echo $property->description; ?>
             Nam aut similique ut repellendus, quasi fugiat mollitia impedit, quo corrupti consequatur recusandae
             dolore! Adipisci rem fuga, ea illum exercitationem veniam maxime saepe perferendis voluptatem nostrum
             corrupti! Fugiat, non ut?</p>
@@ -41,22 +37,22 @@ includeTemplate('header');
             deserunt ipsam sed veniam incidunt distinctio officiis maxime! Iure aspernatur repellat quisquam debitis
             fugit.</p>
 
-        <p class="for-sale-price">$<?php echo $property['price']; ?></p>
+        <p class="for-sale-price">$<?php echo $property->price; ?></p>
 
         <ul class="icons-info detailed">
             <li>
                 <img class="icon" loading="lazy" src="build/img/icono_wc.svg" alt="Icono WC">
-                <p><?php echo $property['wc']; ?></p>
+                <p><?php echo $property->wc; ?></p>
             </li>
 
             <li>
                 <img class="icon" loading="lazy" src="build/img/icono_estacionamiento.svg" alt="Icono Estacionamiento">
-                <p><?php echo $property['parking']; ?></p>
+                <p><?php echo $property->parking; ?></p>
             </li>
 
             <li>
                 <img class="icon" loading="lazy" src="build/img/icono_dormitorio.svg" alt="Icono Habitaciones">
-                <p><?php echo $property['bedrooms']; ?></p>
+                <p><?php echo $property->bedrooms; ?></p>
             </li>
         </ul>
     </div> <!-- .property-details -->
@@ -64,6 +60,4 @@ includeTemplate('header');
 
 <?php
 includeTemplate('footer');
-// Close Database
-closeDB($db);
 ?>

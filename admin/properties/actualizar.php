@@ -3,6 +3,7 @@
 // Includes funcions
 
 use App\Property;
+use App\Seller;
 use Intervention\Image\ImageManagerStatic as Image;
 
 require '../../includes/app.php';
@@ -19,7 +20,7 @@ if (!$id) {
 }
 
 //Find the property by its id
-$property = Property::findProperty($id);
+$property = Property::findOnDB($id);
 
 
 // If no property was found then go back
@@ -28,28 +29,23 @@ if (!$property) {
 }
 
 // Query to Get Sellers
-$query = "SELECT id, name, lastname FROM sellers";
-$result2 = mysqli_query($db, $query);
+$sellers = Seller::getAll();
 
 $errors = Property::getErrors();
 
 // Sends the form to the DB
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    // Assign Attributes
+    // Get user input
     $array = $_POST['property'];
 
+    // Sync Attributes
     $property->syncChanges($array);
-
-    // Save the file in a variable
-    // input name='image'
-
-    //    $image = $_FILES['property']['image'];
 
     /******* Form Validations *******/
     $errors = $property->validate();
 
-    // if there are no errors then insert
+    // if there are no errors then Update
     if (empty($errors)) {
 
         /* Files upload to the server */
@@ -97,8 +93,5 @@ includeTemplate('header');
 
 <?php
 includeTemplate('footer');
-
-// Close Database
-closeDB($db);
 
 ?>

@@ -8,7 +8,6 @@ includeTemplate('header');
         <h2>Casas y Departamentos</h2>
 
         <?php
-        $propertyLimit = 20;
         include 'includes/templates/forsale.php';
         ?>
     </section>

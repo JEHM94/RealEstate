@@ -4,14 +4,14 @@
 require '../../includes/app.php';
 
 use App\Property;
+use App\Seller;
 use Intervention\Image\ImageManagerStatic as Image;
 
 // Check if the user is authenticated
 authUser();
 
 // Query to Get Sellers
-$query = "SELECT id, name, lastname FROM sellers";
-$result2 = mysqli_query($db, $query);
+$sellers = Seller::getAll();
 
 $property = new Property;
 
@@ -83,6 +83,4 @@ includeTemplate('header');
 <?php
 includeTemplate('footer');
 
-// Close Database
-closeDB($db);
 ?>
