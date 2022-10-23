@@ -25,7 +25,7 @@ $property = Property::findOnDB($id);
 
 // If no property was found then go back
 if (!$property) {
-    header('Location: /admin');
+    redirectToAdmin();
 }
 
 // Query to Get Sellers
